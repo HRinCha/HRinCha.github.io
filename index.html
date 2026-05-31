@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Yourname | Geochemist in the Making</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #fcfaf6;
+      --warm-white: #ffffff;
+      --beige: #efe9df;
+      --tan: #b8a88f;
+      --brown: #8a5236;
+      --dark-brown: #4a2c1c;
+      --ink: #2e2018;
+      --rust: #c2562e;
+      --sage: #9a7b4f;
+      --muted-blue: #c98a3c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--warm-white);
+      color: var(--ink);
+      font-family: 'Crimson Pro', serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* 노트 질감 배경 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 23px,
+          rgba(170,150,110,0.09) 23px,
+          rgba(170,150,110,0.09) 24px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 23px,
+          rgba(170,150,110,0.09) 23px,
+          rgba(170,150,110,0.09) 24px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--beige);
+    }
+
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--tan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      color: var(--brown);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--rust); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 650px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--tan);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 2rem;
+      height: 1px;
+      background: var(--tan);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--dark-brown);
+      margin-bottom: 0.3rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .hero-sub {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.15rem;
+      color: var(--brown);
+      font-weight: 300;
+      margin-top: 1rem;
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rust);
+      border-bottom: 1px solid var(--rust);
+      padding-bottom: 0.2rem;
+      transition: gap 0.2s;
+    }
+
+    .hero-cta:hover { gap: 1rem; }
+
+    /* 오른쪽 장식 SVG */
+    .hero-deco {
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(45vw, 480px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    /* 날짜 스탬프 */
+    .stamp {
+      position: absolute;
+      bottom: 3rem;
+      right: 3rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--tan);
+      letter-spacing: 0.15em;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      padding: 6rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--tan);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--beige);
+      max-width: 200px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+      color: var(--dark-brown);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--cream);
+      border-top: 1px solid var(--beige);
+      border-bottom: 1px solid var(--beige);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1000px;
+    }
+
+    .about-text p {
+      color: var(--brown);
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p strong {
+      font-weight: 400;
+      color: var(--dark-brown);
+    }
+
+    .about-text-full {
+      max-width: 720px;
+    }
+
+    .about-text-full p {
+      color: var(--brown);
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text-full p strong {
+      font-weight: 400;
+      color: var(--dark-brown);
+    }
+
+    .about-text-full em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    /* ── EXPERIENCE LIST ── */
+    .exp-list {
+      max-width: 760px;
+      margin-top: 2rem;
+    }
+
+    .exp-entry {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--beige);
+      align-items: start;
+    }
+
+    .exp-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--rust);
+      letter-spacing: 0.05em;
+      padding-top: 0.2rem;
+    }
+
+    .exp-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--dark-brown);
+      margin-bottom: 0.4rem;
+      line-height: 1.35;
+    }
+
+    .exp-body .exp-meta {
+      font-size: 0.92rem;
+      color: var(--sage);
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-body p {
+      font-size: 0.95rem;
+      color: var(--brown);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .exp-body .exp-role {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rust);
+      border: 1px solid var(--rust);
+      padding: 0.2rem 0.5rem;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-top: 0.5rem;
+    }
+
+    .stat-item {
+      border-left: 2px solid var(--tan);
+      padding-left: 1.2rem;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--rust);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--tan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* ── RESEARCH ── */
+    #research {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .research-interests {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .interest-item {
+      padding: 1.5rem;
+      background: var(--cream);
+      border: 1px solid var(--beige);
+      border-left: 3px solid var(--rust);
+      transition: transform 0.2s;
+    }
+
+    .interest-item:hover { transform: translateX(4px); }
+
+    .interest-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark-brown);
+      margin-bottom: 0.4rem;
+    }
+
+    .interest-item p {
+      font-size: 0.95rem;
+      color: var(--brown);
+      font-weight: 300;
+    }
+
+    /* ── FIELD NOTES ── */
+    #fieldnotes {
+      background: var(--cream);
+      border-top: 1px solid var(--beige);
+      border-bottom: 1px solid var(--beige);
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .note-card {
+      background: var(--warm-white);
+      border: 1px solid var(--beige);
+      padding: 1.8rem;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    .note-card:hover {
+      box-shadow: 4px 4px 0 var(--beige);
+      transform: translate(-2px, -2px);
+    }
+
+    .note-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--tan);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+
+    .note-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--dark-brown);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .note-card p {
+      font-size: 0.9rem;
+      color: var(--brown);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .note-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage);
+      border: 1px solid var(--sage);
+      padding: 0.2rem 0.5rem;
+    }
+
+    /* ── FIELD NOTES (photo grid + memo) ── */
+    .fn-entry {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--beige);
+      align-items: center;
+    }
+
+    .fn-photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.6rem;
+    }
+
+    .fn-photos img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 1px solid var(--beige);
+      background: var(--cream);
+      display: block;
+    }
+
+    .fn-memo .fn-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.66rem;
+      color: var(--tan);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+    }
+
+    .fn-memo h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--dark-brown);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .fn-memo p {
+      font-size: 0.95rem;
+      color: var(--brown);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 768px) {
+      .fn-entry { grid-template-columns: 1fr; gap: 1.2rem; }
+    }
+
+    /* placeholder 카드 */
+    .note-card.placeholder {
+      border-style: dashed;
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+      cursor: default;
+    }
+
+    .note-card.placeholder:hover {
+      box-shadow: none;
+      transform: none;
+    }
+
+    .placeholder-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--tan);
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    /* ── CV ── */
+    #cv {
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    #cv p {
+      color: var(--brown);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .cv-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.9rem 2.2rem;
+      background: var(--dark-brown);
+      color: var(--cream);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .cv-btn:hover { background: var(--rust); }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--dark-brown);
+      color: var(--cream);
+      text-align: center;
+    }
+
+    #contact .section-label { color: var(--tan); }
+    #contact .section-label::after { background: rgba(255,255,255,0.1); }
+    #contact h2 { color: var(--cream); }
+
+    #contact p {
+      color: var(--tan);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border-bottom: 1px solid var(--tan);
+      padding-bottom: 0.2rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-links a:hover {
+      color: var(--rust);
+      border-color: var(--rust);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--tan);
+      text-align: center;
+      padding: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content > * {
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-tag    { animation-delay: 0.1s; }
+    h1           { animation-delay: 0.25s; }
+    .hero-sub    { animation-delay: 0.4s; }
+    .hero-cta    { animation-delay: 0.55s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-deco { display: none; }
+      .stamp { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">YN · Geochemist</span>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#fieldnotes">Field Notes</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Undergraduate Researcher</div>
+      <h1>Your<br><em>Name</em></h1>
+      <p class="hero-sub">
+        Stable isotope &amp; volatile geochemistry · Nitrogen budgets, elemental recycling, and the early Earth.
+      </p>
+      <a href="#fieldnotes" class="hero-cta">
+        Read field notes →
+      </a>
+    </div>
+
+    <!-- 장식: 별자리 스타일 SVG (네 그림 분위기) -->
+    <svg class="hero-deco" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="160" stroke="#7a5c3a" stroke-width="0.8" stroke-dasharray="4 8"/>
+      <circle cx="200" cy="60"  r="4" fill="#7a5c3a"/>
+      <circle cx="340" cy="200" r="3" fill="#7a5c3a"/>
+      <circle cx="200" cy="340" r="5" fill="#7a5c3a"/>
+      <circle cx="60"  cy="200" r="3" fill="#7a5c3a"/>
+      <circle cx="290" cy="100" r="2" fill="#9b5e3a"/>
+      <circle cx="310" cy="280" r="2" fill="#9b5e3a"/>
+      <circle cx="110" cy="290" r="2" fill="#9b5e3a"/>
+      <circle cx="130" cy="100" r="2" fill="#9b5e3a"/>
+      <line x1="200" y1="60"  x2="340" y2="200" stroke="#7a5c3a" stroke-width="0.5" opacity="0.6"/>
+      <line x1="340" y1="200" x2="200" y2="340" stroke="#7a5c3a" stroke-width="0.5" opacity="0.6"/>
+      <line x1="200" y1="340" x2="60"  y2="200" stroke="#7a5c3a" stroke-width="0.5" opacity="0.6"/>
+      <line x1="60"  y1="200" x2="200" y2="60"  stroke="#7a5c3a" stroke-width="0.5" opacity="0.6"/>
+      <!-- 원자 궤도 -->
+      <ellipse cx="200" cy="200" rx="60" ry="25" stroke="#9b5e3a" stroke-width="0.7" opacity="0.5" transform="rotate(30 200 200)"/>
+      <ellipse cx="200" cy="200" rx="60" ry="25" stroke="#9b5e3a" stroke-width="0.7" opacity="0.5" transform="rotate(90 200 200)"/>
+      <ellipse cx="200" cy="200" rx="60" ry="25" stroke="#9b5e3a" stroke-width="0.7" opacity="0.5" transform="rotate(150 200 200)"/>
+      <circle cx="200" cy="200" r="6" fill="#9b5e3a" opacity="0.7"/>
+      <!-- 흩어진 별들 -->
+      <text x="155" y="155" font-size="8" fill="#7a5c3a" opacity="0.7">✦</text>
+      <text x="248" y="160" font-size="6" fill="#7a5c3a" opacity="0.5">✦</text>
+      <text x="170" y="250" font-size="5" fill="#7a5c3a" opacity="0.4">·</text>
+      <text x="230" y="240" font-size="9" fill="#7a5c3a" opacity="0.6">✦</text>
+      <text x="140" y="200" font-size="5" fill="#9b5e3a" opacity="0.5">·</text>
+      <text x="260" y="210" font-size="6" fill="#9b5e3a" opacity="0.5">·</text>
+    </svg>
+
+    <div class="stamp">FIELD JOURNAL · 2025 –</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">01 · About</div>
+    <div class="about-text-full">
+      <h2>How I got here</h2>
+      <p>
+        In high school, I became fascinated by color — not just as aesthetics, but as a question: <em>where does it come from?</em> That led me to spectroscopy, where I first saw how matter encodes information in the way it interacts with light. Around the same time, an environmental science class introduced me to systems thinking — the idea that everything is connected, and that those connections leave traces.
+      </p>
+      <p>
+        Those two instincts brought me to <strong>Earth and Environmental Sciences at Seoul National University</strong>. Then, in a course on Earth system science, I encountered isotope fractionation — and recognized something familiar. The same logic as IR spectroscopy: matter responding to its environment, leaving a readable signal. Except here, the recorder is the Earth itself, and the timescales are geological.
+      </p>
+      <p>
+        That was the moment I knew I wanted to work with stable isotopes. Since then, I've taken nearly every isotope course my department offers, and found my way into <strong>volatile geochemistry</strong> — getting my hands on a vacuum line for the first time and realizing this is a field where I can work across different proxies, instruments, and timescales, talking to people who ask questions about the whole Earth.
+      </p>
+      <p>
+        I'm currently in the combined B.S.–M.S. program at SNU (expected 2028), looking to pursue a Ph.D. in stable isotope geochemistry — wherever the most interesting volatile research is happening.
+      </p>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="section-label">02 · Research</div>
+    <h2>What I'm thinking about</h2>
+    <div class="research-interests">
+      <div class="interest-item">
+        <h3>Stable Isotope &amp; Volatile Geochemistry (안정동위원소·휘발성 원소 지구화학)</h3>
+        <p>My methodological home. I'm currently working on nitrogen budgets and elemental recycling — tracing where elements come from, where they go, and how they're partitioned across the Earth system.</p>
+      </div>
+      <div class="interest-item">
+        <h3>Early Earth &amp; Redox Evolution (초기 지구·산화환원 진화)</h3>
+        <p>I'm drawn to the question of how the early Earth came to be the way it is — particularly its oxygen fugacity and elemental budgets. Less "how things flow," more "why the system settled into this state."</p>
+      </div>
+      <div class="interest-item">
+        <h3>Spectroscopy × Isotopes (분광학과 동위원소의 접점)</h3>
+        <p>Spectroscopy was my first scientific love, and I see isotope fractionation as the same logic written at a different scale. I'm interested in where these two ways of reading matter meet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" style="background: var(--cream); border-top: 1px solid var(--beige); border-bottom: 1px solid var(--beige);">
+    <div class="section-label">03 · Experience</div>
+    <h2>What I've done</h2>
+    <div class="exp-list">
+
+      <div class="exp-entry">
+        <div class="exp-year">2025</div>
+        <div class="exp-body">
+          <h3>Diffuse Soil Degassing in Hydrothermal Areas of Mt. Melbourne, Antarctica: Insights for the Understanding of Cryovolcanism on Earth</h3>
+          <div class="exp-meta">ACS Earth and Space Chemistry, 2025, 9(8), 2092–2101</div>
+          <p>Created the graphical abstract for this study on volatile degassing in an Antarctic hydrothermal system and its implications for cryovolcanism and potential extraterrestrial biology.</p>
+          <span class="exp-role">Co-author · Graphical Abstract</span>
+        </div>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-year">2025</div>
+        <div class="exp-body">
+          <h3>Poster Presentation at JpGU (Japan Geoscience Union Meeting)</h3>
+          <div class="exp-meta">Japan Geoscience Union, Chiba, Japan</div>
+          <p>Presented research as a poster at an international geoscience conference. <<상세 내용·제목은 직접 채워줘.>></p>
+          <span class="exp-role">Poster</span>
+        </div>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-year">2024–</div>
+        <div class="exp-body">
+          <h3>Volatile &amp; Noble Gas Geochemistry — Lab &amp; Fieldwork</h3>
+          <div class="exp-meta">Seoul National University · AORI</div>
+          <p>Hands-on work with vacuum line systems and noble gas analysis. Participated in field campaigns across multiple sites. <<구체적 필드/기기 내용 추가 가능.>></p>
+          <span class="exp-role">Research</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FIELD NOTES -->
+  <section id="fieldnotes">
+    <div class="section-label">04 · Field Notes</div>
+    <h2>Notes from the field</h2>
+    <p style="max-width:640px; color:var(--brown); font-weight:300; margin-bottom:1rem;">
+      Places I've been, things I've seen. A working journal — added to as I go.
+    </p>
+
+    <!-- ▼▼▼ 글 하나 = entry 하나. 복사해서 사진·텍스트만 바꾸면 됩니다 ▼▼▼ -->
+
+    <!-- ===== ENTRY 시작 ===== -->
+    <div class="fn-entry">
+      <div class="fn-photos">
+        <!-- 사진: src를 본인 이미지 파일명으로. 여러 장 추가 가능 -->
+        <img src="images/sample1.jpg" alt="field photo" />
+        <img src="images/sample2.jpg" alt="field photo" />
+        <img src="images/sample3.jpg" alt="field photo" />
+      </div>
+      <div class="fn-memo">
+        <div class="fn-date">2025 · 05 · JpGU, Chiba</div>
+        <h3>JpGU 2025</h3>
+        <p>
+          여기에 메모를 적으세요. 어디 다녀와서 무엇을 봤는지, 짧게.
+          (예: 첫 국제학회 포스터 발표. volatile 세션에서 만난 사람들이 인상적이었다.)
+        </p>
+        <span class="note-tag">Conference</span>
+      </div>
+    </div>
+    <!-- ===== ENTRY 끝 ===== -->
+
+    <!-- ===== ENTRY 시작 (복사본 예시) ===== -->
+    <div class="fn-entry">
+      <div class="fn-photos">
+        <img src="images/sample4.jpg" alt="field photo" />
+        <img src="images/sample5.jpg" alt="field photo" />
+      </div>
+      <div class="fn-memo">
+        <div class="fn-date">2025 · 0X · 장소</div>
+        <h3>제목</h3>
+        <p>두 번째 기록. 사진 장수는 자유롭게 늘리거나 줄이면 됩니다.</p>
+        <span class="note-tag">Fieldwork</span>
+      </div>
+    </div>
+    <!-- ===== ENTRY 끝 ===== -->
+
+  </section>
+
+  <!-- CV -->
+  <section id="cv">
+    <div class="section-label">05 · CV</div>
+    <h2>Curriculum Vitae</h2>
+    <p>Full academic CV available as PDF. Includes education, field experience, presentations, and skills.</p>
+    <a href="#" class="cv-btn">↓ Download CV</a>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">06 · Contact</div>
+    <h2>Get in touch</h2>
+    <p>Always happy to talk about geochemistry, fieldwork, or anything in between.</p>
+    <div class="contact-links">
+      <a href="mailto:your@email.com">your@email.com</a>
+      <a href="#" target="_blank">Google Scholar</a>
+      <a href="#" target="_blank">GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Your Name · Built with curiosity
+  </footer>
+
+</body>
+</html>
